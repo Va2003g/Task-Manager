@@ -5,11 +5,18 @@ import Google from '../assests/Google.svg';
 import { useGoogleLogin } from '@react-oauth/google';
 
 
-
 const Login = () => {
+    let data='';
     const login = useGoogleLogin({
-        onSuccess: credentialResponse => {
-            console.log(credentialResponse);
+        onSuccess: async (credentialResponse) => {
+            try{
+                let response = await fetch(`https://www.googleapis.com/oauth2/v3/userinfo?access_token=${credentialResponse.access_token}`);
+                data = await response.json()
+                console.log('data',data);
+            }catch(err){
+                console.log(err);
+            }
+            console.log('credential',credentialResponse);
         },
         onError: () => {
             console.log('Login Failed');
