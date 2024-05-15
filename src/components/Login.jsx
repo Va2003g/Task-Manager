@@ -3,22 +3,30 @@ import hero from '../assests/hero.png';
 import logo from '../assests/logo.png';
 import Google from '../assests/Google.svg';
 import { useGoogleLogin } from '@react-oauth/google';
+import { useNavigate } from "react-router-dom";
 
 
 const Login = () => {
+    const navigate = useNavigate();
     let data='';
     const login = useGoogleLogin({
         onSuccess: async (credentialResponse) => {
+            //fetching user data by the accesstoken provided by oath library..
             try{
                 let response = await fetch(`https://www.googleapis.com/oauth2/v3/userinfo?access_token=${credentialResponse.access_token}`);
-                data = await response.json()
+                if(response.ok)
+                {
+                    data = await response.json()
+                    navigate('/dashboard',{state:{userData:data}});
+                }
                 console.log('data',data);
             }catch(err){
                 console.log(err);
             }
             console.log('credential',credentialResponse);
         },
-        onError: () => {
+        onError: (err) => {
+            console.log(err);
             console.log('Login Failed');
         },
     });
