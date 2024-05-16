@@ -1,14 +1,13 @@
 import React from "react";
-import hero from '../assests/hero.png';
-import logo from '../assests/logo.png';
-import Google from '../assests/Google.svg';
+import {hero,logo,Google} from '../../assets';
 import { useGoogleLogin } from '@react-oauth/google';
 import { useNavigate } from "react-router-dom";
 import {useDispatch} from 'react-redux';
-import { update } from "../Redux/UserData/UserDataSlice";
+import { update } from "../../Redux/UserData/UserDataSlice";
 
 
-const Login = () => {
+// export const Login = () => {
+export const Login = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     let data='';
@@ -16,7 +15,7 @@ const Login = () => {
         onSuccess: async (credentialResponse) => {
             //fetching user data by the accesstoken provided by oath library..
             try{
-                let response = await fetch(`https://www.googleapis.com/oauth2/v3/userinfo?access_token=${credentialResponse.access_token}`);
+                const response = await fetch(`https://www.googleapis.com/oauth2/v3/userinfo?access_token=${credentialResponse.access_token}`);
                 if(response.ok)
                 {
                     data = await response.json();
@@ -33,12 +32,13 @@ const Login = () => {
             console.log(err);
             console.log('Login Failed');
         },
+        uxMode:'popup'
     });
     return (
         <div className="login w-full h-full flex relative justify-evenly">
             <div className="absolute loginDiv inset-0 opacity-50"></div>
             <div className="image relative top-[168.14px]">
-                <img src={hero} alt="" className="w-[869.32px] h-[495px]" />
+                <img src={hero} alt="" className="w-[869.32px] h-[495px] aspect-auto" />
             </div>
             <div className="loginBlock flex flex-col relative top-[331px] gap-3">
                 <div className="imageLogo">
@@ -56,5 +56,3 @@ const Login = () => {
         </div>
     )
 }
-
-export default Login;
