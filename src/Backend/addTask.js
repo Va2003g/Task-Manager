@@ -1,7 +1,7 @@
 import {doc,setDoc} from 'firebase/firestore'
 import { db } from './index'
 
-export const addTask = async()=>{
+export const AddTask = async()=>{
     try{
         await setDoc(doc(db, "cities", "LA"), {
             name: "Los Angeles",

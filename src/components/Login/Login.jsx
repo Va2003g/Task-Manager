@@ -1,24 +1,20 @@
 import React from "react";
 import { hero, logo, Google } from "../../assets";
-import { useGoogleLogin } from "@react-oauth/google";
 import { useNavigate } from "react-router-dom";
+
 import { useDispatch } from "react-redux";
 import { update } from "../../Redux/UserData/UserDataSlice";
-import {auth,provider,addUser} from '../../Backend'
+import {auth,provider,AddUser} from '../../Backend'
 import { signInWithPopup} from "firebase/auth";
 
 // export const Login = () => {
 export const Login = () => {
-  
-  const navigate = useNavigate();
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
   const handleLogin = () =>{
     signInWithPopup(auth,provider).then((data)=>{
-      console.log(data);
       dispatch(update(data._tokenResponse));
-      addUser(data._tokenResponse);
-      navigate('/dashboard')
+      AddUser(data._tokenResponse,navigate);
     }).catch((err)=>console.log(err));
   }
   return (

@@ -1,3 +1,3 @@
-export {addTask} from './addTask'
-export {addUser} from './addUser'
-export {auth,provider,db} from './firebase'
+export {AddTask} from './AddTask'
+export {AddUser} from './AddUser'
+export {auth,provider,db} from './Firebase'
