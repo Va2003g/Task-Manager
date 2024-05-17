@@ -4,10 +4,7 @@ import { db } from './index'
 export const AddUser = async(data,navigate)=>{
     try{
         const queryForFindingUser = query(collection(db, "UserData" ),where("email", "==", data.email))
-        console.log("query",queryForFindingUser);
         const checkUser = await getDocs(queryForFindingUser);
-        console.log("checkUser",checkUser.size);
-        checkUser.forEach((data)=>console.log(data.data()))
         if(checkUser.size === 0)
         {
             const response = await addDoc(collection(db, "UserData"), {
