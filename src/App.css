@@ -64,11 +64,20 @@
 @media screen and (max-width:620px){
   .image img{
     height: 300px;
-    width: 80%;
+    width: 500px;
+  }
+}
+@media screen and (max-width:500px){
+  .image img{
+    height: 300px;
+    width: 400px;
   }
 }
 @media screen and (max-width:400px){
-
+  .image img{
+    height: 300px;
+    width: 300px;
+  }
   .btn{
     width:90%;
   }
