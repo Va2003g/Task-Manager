@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Navbar,SideBar } from "../components";
+import { Navbar,SideBar,TaskWindow } from "../components";
 
 const Dashboard = ()=>{
     
@@ -9,7 +9,7 @@ const Dashboard = ()=>{
             <Navbar/>
             <div className="flex ">
                 <SideBar/>
-                <div className="mx-auto my-auto">Main Window</div>
+                <TaskWindow/>
             </div>
         </div>
     )

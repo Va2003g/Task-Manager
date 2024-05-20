@@ -3,6 +3,7 @@ import logo from './geekyants-logo.svg'
 import Google from './Google.svg';
 import Search from './Search.svg';
 import Bell from './Bell.svg';
-import categoryIcon from './categoryIcon.svg'
+import categoryIcon from './CategoryIcon.svg'
+import Task from './Task.svg'
 
-export {hero,logo,Google,Search,Bell,categoryIcon};
+export {hero,logo,Google,Search,Bell,categoryIcon,Task};

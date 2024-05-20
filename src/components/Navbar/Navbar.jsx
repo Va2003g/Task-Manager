@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 const Navbar = ()=> {
     const data = useSelector((state)=>state.userData.value);
     const imgUrl = data.photoUrl;
+    console.log(imgUrl)
     return (
         <div className="bg-[#FFFFFF] flex shadow-[0px_-1px_0px_0px_#E2E2EA_inset] justify-between h-[8%] items-center p-3">
             <div className="flex justify-between">
@@ -20,11 +21,11 @@ const Navbar = ()=> {
             </div>
             <div className="flex justify-center items-center">
                 <div><img src={Bell} alt="" /></div>
-                <div>
-                    <span className="flex w-full h-full justify-center items-center gap-3">
-                        <img src={imgUrl} alt="" className="w-[20%] h-[50%] rounded-[50%]" />
+                <div className="flex w-full h-full">
+                    <div className="flex w-full h-full justify-center items-center gap-3">
+                        <img src= {imgUrl} alt="" className="w-[20%] h-[50%] rounded-[50%]" />
                         <span>{data.fullName}</span>
-                    </span>
+                    </div>
                 </div>
             </div>
             {/* <img src={imgUrl} alt="" /> */}

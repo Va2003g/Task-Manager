@@ -5,6 +5,8 @@
   height: 100vh;
   font-family: Poppins;
   overflow-y: hidden;
+  margin: 0;
+  padding: 0;
 }
 .loginDiv{
   background: linear-gradient(180deg, #849BDA 0%, #4D62B3 100%) ;
