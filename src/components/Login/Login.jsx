@@ -9,9 +9,19 @@ import { signInWithPopup} from "firebase/auth";
 
 // export const Login = () => {
 export const Login = () => {
+ 
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleLogin = () =>{
+    // const googleProvider = new firebase.auth.GoogleAuthProvider();
+    // console.log('app',app);
+    // const authResponse = await app.auth().signInWithPopup(googleProvider);
+    // if(authResponse.user) {
+    //     // setIsSignedIn(true);
+    //     console.log('true')
+    // }
+    // setIsSignedIn(true);
+
     signInWithPopup(auth,provider).then((data)=>{
       dispatch(update(data._tokenResponse));
       AddUser(data._tokenResponse,navigate);
