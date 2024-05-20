@@ -1,13 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { logo,Bell } from "../../assets";
 import { Search } from "../../assets";
 import { useSelector } from "react-redux";
 import { Logout } from "../Login";
+import {auth} from '../../Backend'
+import { onAuthStateChanged } from "firebase/auth";
 
 
 const Navbar = ()=> {
+
     const data = useSelector((state)=>state.userData.value);
-    const imgUrl = data.photoUrl;
+    
     const [showLogout,setShowLogout] = useState(false);
     return (
         <div className="bg-[#FFFFFF] flex shadow-[0px_-1px_0px_0px_#E2E2EA_inset] justify-between h-[8%] items-center p-3 relative">
@@ -24,8 +27,8 @@ const Navbar = ()=> {
                 <div><img src={Bell} alt="" /></div>
                 <div className="flex w-full h-full">
                     <div className="flex w-full h-full justify-center items-center gap-3">
-                        <img src= {imgUrl} alt="" className="w-[20%] h-[50%] rounded-[50%]" />
-                        <span>{data.fullName}</span>
+                        <img src= {data.photoURL || data.photoUrl} alt="" className="w-[20%] h-[50%] rounded-[50%]" />
+                        <span>{data.displayName}</span>
                         <svg className="w-2.5 h-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6" onClick={()=>setShowLogout(!showLogout)}>
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
                         </svg>

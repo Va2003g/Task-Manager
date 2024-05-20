@@ -5,12 +5,17 @@ import Dashboard from './pages/Dashboard'
 import { onAuthStateChanged } from 'firebase/auth';
 import {auth} from './Backend'
 import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { update } from "./Redux/UserData/UserDataSlice";
+
 function App() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   useEffect(()=>{
     onAuthStateChanged(auth,(user)=>{
       if(user){
         //user is logged in
+        dispatch(update(user));
         navigate('/dashboard');
       }
       else{
