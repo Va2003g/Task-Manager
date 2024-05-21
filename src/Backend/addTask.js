@@ -10,7 +10,9 @@ export const AddTask = async(dataArray)=>{
             userId = doc.id;
         })
         dataArray.userId = userId;
-        await addDoc(collection(db, `Tasks`), dataArray);
+        dataArray.status = 'pending';
+        const response = await addDoc(collection(db, `Tasks`), dataArray);
+        console.log(response);
     }catch(err)
     {
         console.log(err);

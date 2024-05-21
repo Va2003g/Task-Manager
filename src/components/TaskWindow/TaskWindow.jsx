@@ -1,6 +1,7 @@
 import React,{useState} from 'react'
 import { Task } from '../../assets'
 import { AddTask } from '../../Backend';
+import { TaskDisplay } from './TaskDisplay';
 const TaskWindow = () => {
 
   const [dataObject,setDataObject]  = useState({
@@ -25,7 +26,7 @@ const TaskWindow = () => {
   }
 
   return (
-    <div className='bg-[#E4E4E440]/[25%] w-full pt-3 px-10 box-border'>
+    <div className='bg-[#E4E4E440]/[25%] w-full pt-3 px-10 box-border flex flex-col gap-5'>
       <div className='bg-gradient-to-l from-[#34316D] from-[4.35%] via-[#4464AA] via-[110.31%] to-[#827EE1] to-[110.31%] flex justify-between rounded-t-3xl rounded-b-3xl font-[Roboto]'>
         <div className='relative left-12 flex flex-col gap-4 mt-7'>
           <div className=' text-[#F6F6F6] font-[700] text-[24px] relative left-3'>
@@ -60,6 +61,7 @@ const TaskWindow = () => {
           <img src={Task} alt="" className='h-[15rem]'/>
         </div>
       </div>
+      <TaskDisplay/>
     </div>
   )
 }

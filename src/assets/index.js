@@ -5,5 +5,6 @@ import Search from './Search.svg';
 import Bell from './Bell.svg';
 import categoryIcon from './CategoryIcon.svg'
 import Task from './Task.svg'
+import Filter from './Filter.svg'
 
-export {hero,logo,Google,Search,Bell,categoryIcon,Task};
+export {hero,logo,Google,Search,Bell,categoryIcon,Task,Filter};
