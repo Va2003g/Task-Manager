@@ -7,7 +7,7 @@ const Dashboard = ()=>{
     return (
         <div>
             <Navbar/>
-            <div className="flex ">
+            <div className="flex gap-2">
                 <SideBar/>
                 <TaskWindow/>
             </div>

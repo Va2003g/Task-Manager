@@ -19,7 +19,7 @@ const SideBar = () => {
         setTags(!tags);
     }
   return (
-    <div className="flex flex-col justify-evenly gap-10 relative left-5 top-4 text-[#171725] font-[500] leading-[16.41px] font-[Roboto]">
+    <div className="flex flex-col justify-evenly gap-10 relative left-1 top-4 text-[#171725] font-[500] leading-[16.41px] font-[Roboto]">
       <div className="flex flex-col gap-3 border-b-[#F1F1F5] border-b-2">
         <p className="hover:bg-gradient-to-l from-[#6B85E6] to-[#6895E6] hover:text-white w-[fit-content] px-5 py-4 box-border hover:rounded-t-3xl hover:rounded-b-3xl">
           Dashboard
