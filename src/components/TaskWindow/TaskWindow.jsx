@@ -15,11 +15,10 @@ const TaskWindow = () => {
   function addTaskHandler(event)
   {
     event.preventDefault();
-    const hasEmptyValue = Object.values(dataObject).forEach((value)=>{if(value==='')return true})
-    if(hasEmptyValue===true)
-    {
+    const hasEmptyValue = Object.values(dataObject).some(value => value === '');
+    if (hasEmptyValue) {
       toast.error('Kindly fill the complete data');
-      return
+      return;
     }
     const response = AddTask(dataObject);
     if(response)

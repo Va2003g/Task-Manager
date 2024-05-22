@@ -23,7 +23,7 @@ function App() {
         navigate('/');
       }
     })
-  },[])
+  },[dispatch,navigate])
   return (
     <div className="App">
       <Routes>

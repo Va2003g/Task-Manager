@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, {useState } from "react";
 import { logo,Bell } from "../../assets";
 import { Search } from "../../assets";
 import { useSelector } from "react-redux";
 import { Logout } from "../Login";
-import {auth} from '../../Backend'
-import { onAuthStateChanged } from "firebase/auth";
 
 
 const Navbar = ()=> {

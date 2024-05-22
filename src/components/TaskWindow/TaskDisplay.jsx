@@ -5,14 +5,21 @@ import { Filter } from "../../assets";
 
 export const TaskDisplay = () => {
   const [taskData, setTaskData] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
+  console.log('loading: ', loading)
+  const [filteredData,setFilteredData] = useState(taskData);
+  console.log('before useeffect',loading)
   useEffect(() => {
     async function fetchTasks() {
+
       try {
         setLoading(true);
         const user = auth.currentUser;
         if (!user) {
-          throw new Error("No authenticated user");
+          // throw new Error("No authenticated user");
+          // naviagte to login
+          setLoading(false)
+          return;
         }
   
         const queryForFindingUser = query(
@@ -20,16 +27,19 @@ export const TaskDisplay = () => {
           where("email", "==", user.email)
         );
         const queryResult = await getDocs(queryForFindingUser);
-  
+
         if (queryResult.empty) {
-          throw new Error("User not found");
+          // throw new Error("User not found");
+          //login page
+          setLoading(false)
+          return;
         }
-  
+        //single user data
         let userId;
         queryResult.forEach((doc) => {
           userId = doc.id;
         });
-  
+
         const queryForFindingTask = query(
           collection(db, "Tasks"),
           where("userId", "==", userId)
@@ -38,18 +48,32 @@ export const TaskDisplay = () => {
   
         const data = [];
         taskQueryResult.forEach((doc) => {
+
           data.push(doc.data());
         });
         setTaskData(data);
-        // taskData = data;
+        setFilteredData(data);
         setLoading(false);
       } catch (err) {
         console.log(err);
       }
       console.log("taskData", taskData);
     }
-    fetchTasks();
-  },[]);
+    if(!taskData.length && auth.currentUser)
+      fetchTasks();
+  },[taskData,setLoading])
+
+  const showAllTasks = (event)=>{
+    setTaskData(filteredData)
+  }
+  const showPendingTasks = (event)=>{
+    const data = filteredData.filter((task)=>(task.status.toUpperCase()==='PENDING'))
+    setTaskData(data)
+  }
+  const showCompletedTask = (event)=>{
+    const data = filteredData.filter((task)=>(task.status.toUpperCase()==='COMPLETED'))
+    setTaskData(data)
+  }
 
   return (
     <div className="flex flex-col gap-4 bg-[#fff] px-6 py-3 rounded-t-3xl rounded-b-3xl">
@@ -61,14 +85,14 @@ export const TaskDisplay = () => {
         </div>
 
         <div className="flex gap-1 box-border font-[Roboto]">
-          <div className="flex border-[1px] border-solid border-[#f1f1f5] rounded-t-[12px] rounded-b-[12px] items-baseline px-4 py-1 box-border">
-            <p className="hover:bg-gradient-to-r from-[#6B85E6] to-[#6895E6] hover:rounded-t-md hover:rounded-b-md py-[0.1rem] px-3 hover:text-white">
+          <div className={`flex border-[1px] border-solid border-[#f1f1f5] rounded-t-[12px] rounded-b-[12px] items-baseline px-4 py-1 box-border`}>
+            <p id='all' className="hover:bg-gradient-to-r from-[#6B85E6] to-[#6895E6] hover:rounded-t-md hover:rounded-b-md px-3 hover:text-white" onClick={showAllTasks}>
               All
             </p>
-            <p className="hover:bg-gradient-to-r from-[#6B85E6] to-[#6895E6] hover:rounded-t-md hover:rounded-b-md py-[0.1rem] px-3 hover:text-white">
+            <p id='pending' className="hover:bg-gradient-to-r from-[#6B85E6] to-[#6895E6] hover:rounded-t-md hover:rounded-b-md py-[0.1rem] px-3 hover:text-white" onClick={showPendingTasks}>
               Pending
             </p>
-            <p className="hover:bg-gradient-to-r from-[#6B85E6] to-[#6895E6] hover:rounded-t-md hover:rounded-b-md py-[0.1rem] px-3 hover:text-white">
+            <p id='completed' className="hover:bg-gradient-to-r from-[#6B85E6] to-[#6895E6] hover:rounded-t-md hover:rounded-b-md py-[0.1rem] px-3 hover:text-white" onClick={showCompletedTask}>
               Completed
             </p>
           </div>

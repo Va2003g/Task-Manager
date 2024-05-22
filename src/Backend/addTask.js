@@ -1,6 +1,5 @@
 import {query,collection, addDoc,getDocs,where} from 'firebase/firestore'
 import { db,auth} from './index'
-import {toast } from 'react-toastify';
 export const AddTask = async(dataArray)=>{
     try{
         const user = auth.currentUser;
