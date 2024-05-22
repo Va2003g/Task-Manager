@@ -6,51 +6,50 @@ import { Filter } from "../../assets";
 export const TaskDisplay = () => {
   const [taskData, setTaskData] = useState([]);
   const [loading, setLoading] = useState(false);
-
-  async function fetchTasks() {
-    try {
-      setLoading(true);
-      const user = auth.currentUser;
-      if (!user) {
-        throw new Error("No authenticated user");
-      }
-
-      const queryForFindingUser = query(
-        collection(db, "UserData"),
-        where("email", "==", user.email)
-      );
-      const queryResult = await getDocs(queryForFindingUser);
-
-      if (queryResult.empty) {
-        throw new Error("User not found");
-      }
-
-      let userId;
-      queryResult.forEach((doc) => {
-        userId = doc.id;
-      });
-
-      const queryForFindingTask = query(
-        collection(db, "Tasks"),
-        where("userId", "==", userId)
-      );
-      const taskQueryResult = await getDocs(queryForFindingTask);
-
-      const data = [];
-      taskQueryResult.forEach((doc) => {
-        data.push(doc.data());
-      });
-      setTaskData(data);
-      // taskData = data;
-      setLoading(false);
-    } catch (err) {
-      console.log(err);
-    }
-    console.log("taskData", taskData);
-  }
   useEffect(() => {
+    async function fetchTasks() {
+      try {
+        setLoading(true);
+        const user = auth.currentUser;
+        if (!user) {
+          throw new Error("No authenticated user");
+        }
+  
+        const queryForFindingUser = query(
+          collection(db, "UserData"),
+          where("email", "==", user.email)
+        );
+        const queryResult = await getDocs(queryForFindingUser);
+  
+        if (queryResult.empty) {
+          throw new Error("User not found");
+        }
+  
+        let userId;
+        queryResult.forEach((doc) => {
+          userId = doc.id;
+        });
+  
+        const queryForFindingTask = query(
+          collection(db, "Tasks"),
+          where("userId", "==", userId)
+        );
+        const taskQueryResult = await getDocs(queryForFindingTask);
+  
+        const data = [];
+        taskQueryResult.forEach((doc) => {
+          data.push(doc.data());
+        });
+        setTaskData(data);
+        // taskData = data;
+        setLoading(false);
+      } catch (err) {
+        console.log(err);
+      }
+      console.log("taskData", taskData);
+    }
     fetchTasks();
-  }, []);
+  },[]);
 
   return (
     <div className="flex flex-col gap-4 bg-[#fff] px-6 py-3 rounded-t-3xl rounded-b-3xl">
@@ -79,8 +78,8 @@ export const TaskDisplay = () => {
         </div>
       </div>
 
-      <div className="w-full overflow-y-scroll">
-        <div className="p-4 rounded-md border flex justify-between w-[100%] bg-[#F1F1F5] text-[#44444F] font-[Roboto] font-[700] text-[19px]">
+      <div className="w-full h-[400px] overflow-y-scroll">
+        <div className="p-4 rounded-md border flex justify-between w-[100%] bg-[#F1F1F5] text-[#44444F] font-[Roboto] font-[700] text-[19px] *:w-40 *:text-center">
           <span>Task</span>
           <span>Category</span>
           <span>Tags</span>
@@ -92,38 +91,24 @@ export const TaskDisplay = () => {
         {!loading ? (
           taskData.map(
             (task, index) =>
-              index % 2 === 0 ? (
+             (
                 <div
                   key={index}
-                  className="p-4 rounded-md border flex justify-between w-[100%] bg-[#FAFAFB] text-[#171725] font-[Poppins] font-[400] text-[15px]"
+                  className={`p-4 rounded-md border flex justify-between w-[100%] ${(index+1)%2===0 ? `bg-[#fafafb]` :`bg-[#fff]` } text-[#171725] font-[Poppins] font-[400] text-[15px] *:w-40 *:text-center *:uppercase`}
                 >
-                  <span className="font-normal w-fit">{task.Task}</span>
-                  <span className="font-normal w-fit">{task.Category}</span>
-                  <span className="font-normal w-fit">{task.Tags}</span>
-                  <span className="font-normal w-fit">{task.Time}</span>
-                  <span className="font-normal w-fit">{task.Date}</span>
-                  <span className=" uppercase bg-[#50B5FF]/[10%] text-[#50B5FF] font-[500] py-1 px-2 rounded-lg">
-                    {task.status}
-                  </span>
-                </div>
-              ) : (
-                <div
-                  key={index}
-                  className="p-4 rounded-md border flex justify-between w-[100%] bg-[#fff] text-[#171725] font-[Poppins] font-[400] text-[15px]"
-                >
-                  <span className="font-normal w-fit">{task.Task}</span>
-                  <span className="font-normal w-fit">{task.Category}</span>
-                  <span className="font-normal w-fit">{task.Tags}</span>
-                  <span className="font-normal w-fit">{task.Time}</span>
-                  <span className="font-normal w-fit">{task.Date}</span>
-                  <span className=" uppercase bg-[#50B5FF]/[10%] text-[#50B5FF] font-[500] py-1 px-2 rounded-lg">
+                  <span className="font-normal">{task.Task}</span>
+                  <span className="font-normal">{task.Category}</span>
+                  <span className="font-normal">{task.Tags}</span>
+                  <span className="font-normal">{task.Time}</span>
+                  <span className="font-normal">{task.Date}</span>
+                  <span className={`uppercase ${task.status.toUpperCase() ==='PENDING' ? 'bg-[#50B5FF]/[10%] text-[#50B5FF] ' : 'bg-[#3DD598]/[10%] text-[#3DD598] '} font-[500] py-1 px-2 rounded-lg`}>
                     {task.status}
                   </span>
                 </div>
               )
-          )
+            )
         ) : (
-          <div>Loading....</div>
+          <div className="flex justify-center items-center h-full">Loading....</div>
         )}
       </div>
     </div>

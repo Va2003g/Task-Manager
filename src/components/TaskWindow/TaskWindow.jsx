@@ -2,6 +2,7 @@ import React,{useState} from 'react'
 import { Task } from '../../assets'
 import { AddTask } from '../../Backend';
 import { TaskDisplay } from './TaskDisplay';
+import { toast } from 'react-toastify';
 const TaskWindow = () => {
 
   const [dataObject,setDataObject]  = useState({
@@ -12,17 +13,29 @@ const TaskWindow = () => {
     Time:''
   })
   function addTaskHandler(event)
-  { 
+  {
     event.preventDefault();
-    AddTask(dataObject);
+    const hasEmptyValue = Object.values(dataObject).forEach((value)=>{if(value==='')return true})
+    if(hasEmptyValue===true)
+    {
+      toast.error('Kindly fill the complete data');
+      return
+    }
+    const response = AddTask(dataObject);
+    if(response)
+    {
+      toast.success('Data Added Successfully')
+    }else{
+      toast.error('Failed to Add Data')
+    }
   }
   function updateHandler(event)
   {
+    
     setDataObject((prevState)=>({
       ...prevState,
       [event.target.name] : event.target.value
     }))
-
   }
 
   return (
