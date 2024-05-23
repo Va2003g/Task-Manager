@@ -1,12 +1,13 @@
+
 import {query,collection, addDoc,getDocs,where} from 'firebase/firestore'
 import { db,auth} from './index'
 export const AddTask = async(dataArray)=>{
     try{
         const user = auth.currentUser;
         const queryForFindingUser = query(collection(db, "UserData" ),where("email", "==", user.email));
-        const queryResult = await getDocs(queryForFindingUser);
-        let userId;
-        queryResult.forEach((doc)=>{
+        const queryResultForFindingUser = await getDocs(queryForFindingUser);
+        let userId = queryResultForFindingUser.docs[0].id;
+        queryResultForFindingUser.forEach((doc)=>{
             userId = doc.id;
         })
         dataArray.userId = userId;

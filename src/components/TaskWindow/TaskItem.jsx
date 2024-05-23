@@ -1,17 +1,21 @@
 import React,{useState} from "react";
-
+import {updateStatus} from '../../Redux/TaskData/taskSlice';
+import { useDispatch } from "react-redux";
+import { doc,updateDoc } from "firebase/firestore";
+import { db } from "../../Backend";
 export const TaskItem = ({ task, index }) => {
-  const [ischecked, setIsChecked] = useState(true);
-  
-  function statusHandler() {
-    console.log(ischecked)
+  const [ischecked, setIsChecked] = useState(false);
+  const dispatch = useDispatch();
+  async function statusHandler() {
+    const newStatus = !ischecked ? "Completed" : "Pending" ;
     setIsChecked(!ischecked)
-    console.log(ischecked)
+    dispatch(updateStatus({id:task.id,newStatus}));
+    const taskDoc = doc(db, 'Tasks', task.id);
+    await updateDoc(taskDoc, { status: newStatus });
   }
 
   return (
     <div
-      key={index}
       className={`p-4 rounded-md border flex justify-between w-[100%] ${
         (index + 1) % 2 === 0 ? `bg-[#fafafb]` : `bg-[#fff]`
       } text-[#171725] font-[Poppins] font-[400] text-[15px]`}
@@ -19,7 +23,7 @@ export const TaskItem = ({ task, index }) => {
       <span
         className={`appearance-none rounded-[50%] border border-solid border-[#D4D4D4] w-[20px] h-[20px] text-white ${ischecked && `bg-[#3DD598] border-[#3DD598]`} flex items-center justify-center cursor-pointer`} onClick={statusHandler} checked={ischecked}
       >
-        <span className="font-[800] select-nonetext-white">
+        <span className="font-[800] select-none text-white">
           &#10003;
         </span>
         <input

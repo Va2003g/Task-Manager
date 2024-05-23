@@ -3,19 +3,22 @@ import { db } from './index'
 
 export const AddUser = async(data,navigate)=>{
     try{
+        let id;
         const queryForFindingUser = query(collection(db, "UserData" ),where("email", "==", data.email))
         const checkUser = await getDocs(queryForFindingUser);
+        id = checkUser.docs[0].id;
         if(checkUser.size === 0)
         {
             const response = await addDoc(collection(db, "UserData"), {
                 firstName: data.firstName,
                 lastName:data.lastName,
                 email:data.email,
-                photo:data.photoUrl | data.photoURL,
+                photo:data.photoUrl,
             });
-            console.log(response);
+            id = response.id;
+            return id;
         }
-        navigate('/dashboard')
+        return id;
     }catch(err)
     {
         console.log(err);

@@ -3,7 +3,7 @@ import { hero, logo, Google } from "../../assets";
 import { useNavigate } from "react-router-dom";
 
 import { useDispatch } from "react-redux";
-import { update } from "../../Redux/UserData/UserDataSlice";
+import { updateId } from "../../Redux/UserData/UserDataSlice";
 import {auth,provider,AddUser} from '../../Backend'
 import { signInWithPopup} from "firebase/auth";
 
@@ -13,9 +13,14 @@ export const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleLogin = () =>{
-    signInWithPopup(auth,provider).then((data)=>{
-      // dispatch(update(data._tokenResponse));
-      AddUser(data._tokenResponse,navigate);
+    signInWithPopup(auth,provider).then(async (data)=>{
+      
+      console.log('data ',data);
+      const response = await AddUser(data._tokenResponse,navigate);
+      console.log('response: ', response)
+      let id =  response;
+      dispatch(updateId(id));
+      
     }).catch((err)=>console.log(err));
   }
   return (

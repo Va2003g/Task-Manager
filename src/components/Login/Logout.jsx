@@ -7,7 +7,7 @@ const Logout = () => {
     function handleLogOut()
     {
         signOut(auth).then(() => {
-            navigate('/');
+            // navigate('/');
             console.log(auth.currentUser,'Logged Out')
         }).catch((error) => {
             console.log('While logging out',error)

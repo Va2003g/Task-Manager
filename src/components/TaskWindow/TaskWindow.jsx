@@ -3,6 +3,8 @@ import { Task } from '../../assets'
 import { AddTask } from '../../Backend';
 import { TaskDisplay } from './TaskDisplay';
 import { toast } from 'react-toastify';
+import { addTasks } from '../../Redux/TaskData/taskSlice';
+import { useDispatch } from 'react-redux';
 const TaskWindow = () => {
 
   const [dataObject,setDataObject]  = useState({
@@ -12,7 +14,8 @@ const TaskWindow = () => {
     Tags:'',
     Time:''
   })
-  function addTaskHandler(event)
+  const dispatch = useDispatch();
+  async function addTaskHandler(event)
   {
     event.preventDefault();
     const hasEmptyValue = Object.values(dataObject).some(value => value === '');
@@ -20,10 +23,13 @@ const TaskWindow = () => {
       toast.error('Kindly fill the complete data');
       return;
     }
-    const response = AddTask(dataObject);
+    const response = await AddTask(dataObject);
+    //dispatch to store
     if(response)
     {
+      console.log('in add task handler',response);
       toast.success('Data Added Successfully')
+      // dispatch(addTasks(dataObject))
     }else{
       toast.error('Failed to Add Data')
     }

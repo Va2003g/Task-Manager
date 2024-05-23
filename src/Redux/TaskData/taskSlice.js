@@ -8,12 +8,22 @@ export const taskSlice = createSlice({
     name:'TaskData',
     initialState,
     reducers:{
-        getTasksFromDataBase:(state,action)=>{
-
+        updateTasks:(state,action)=>{
+            state.value = action.payload;
+        },
+        addTasks:(state,action)=>{
+            state.value.push(action.payload);
+        },
+        updateStatus:(state,action)=>{
+            const {id,newStatus} = action.payload;
+            const task = state.value.find(data=>data.id===id) 
+            if(task)
+            {
+                task.status = newStatus;
+            }
         }
-
     }
 })
 
-// export {} = createSlice.actions;
-export default taskSlice.reducers;
+export const {updateTasks,addTasks,updateStatus} = taskSlice.actions;
+export default taskSlice.reducer;
