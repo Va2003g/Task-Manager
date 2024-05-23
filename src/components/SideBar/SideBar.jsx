@@ -1,23 +1,27 @@
 import React, { useState } from "react";
-import { Search,categoryIcon } from "../../assets";
-
+import { Search, categoryIcon } from "../../assets";
+import { useSelector } from "react-redux";
 
 const SideBar = () => {
+  const [category, setCategory] = useState(true);
+  const [tags, setTags] = useState(false);
+  const data = useSelector((state) => state.taskData.value);
+  const categoryData = [],
+    tagData = [];
 
-    const [category,setCategory] = useState(true);
-    const [tags,setTags] = useState(false);
-    const categoryData = ['Category 1','Category 2','Category 3','Category 4','Category 5'],tagData = ['Tags 1','Tags 2','Tags 3','Tags 4','Tags 5'];
+  data.forEach((task) => {
+    categoryData.push(task.Category);
+    tagData.push(task.Tags);
+  });
 
-    function handleCategory()
-    {
-        if(tags) setTags(false);
-        setCategory(!category);
-    }
-    function handleTags()
-    {
-        if(category) setCategory(false);
-        setTags(!tags);
-    }
+  function handleCategory() {
+    if (tags) setTags(false);
+    setCategory(!category);
+  }
+  function handleTags() {
+    if (category) setCategory(false);
+    setTags(!tags);
+  }
   return (
     <div className="h-full flex flex-col justify-evenly gap-10 relative left-1 top-4 text-[#171725] font-[500] leading-[16.41px] font-[Roboto]">
       <div className="flex flex-col gap-3 border-b-[#F1F1F5] border-b-2">
@@ -60,20 +64,22 @@ const SideBar = () => {
       </div>
 
       <div className="relative left-8 -top-5 flex flex-col gap-3">
-        {category ? (categoryData.map((data,key)=>(
-            <div className="flex gap-2 font-[300] font-[Poppins]" key={key}>
-            <img src={categoryIcon} alt="" />
-            <span>{data}</span>
-          </div>
-        ))
-        ) : null}
-        {tags ? (tagData.map((data,key)=>(
-            <div className="flex gap-2 font-[300] font-[Poppins]" key = {key}>
-            <img src={categoryIcon} alt="" />
-            <span>{data}</span>
-          </div>
-        ))
-        ) : null}
+        {category
+          ? categoryData.map((data, key) => (
+              <div className="flex gap-2 font-[300] font-[Poppins]" key={key}>
+                <img src={categoryIcon} alt="" />
+                <span>{data}</span>
+              </div>
+            ))
+          : null}
+        {tags
+          ? tagData.map((data, key) => (
+              <div className="flex gap-2 font-[300] font-[Poppins]" key={key}>
+                <img src={categoryIcon} alt="" />
+                <span>{data}</span>
+              </div>
+            ))
+          : null}
       </div>
     </div>
   );

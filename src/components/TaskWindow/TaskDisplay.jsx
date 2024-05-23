@@ -6,7 +6,7 @@ import { useCallback } from "react";
 
 export const TaskDisplay = () => {
   // const [taskData, setTaskData] = useState([]);
-  const [loading, setLoading] = useState(true);
+  // const [loading, setLoading] = useState(true);
   const taskData = useSelector((state)=>state.taskData.value)
   const [filteredData,setFilteredData] = useState([]);
   

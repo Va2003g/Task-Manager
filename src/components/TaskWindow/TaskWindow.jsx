@@ -3,8 +3,8 @@ import { Task } from '../../assets'
 import { AddTask } from '../../Backend';
 import { TaskDisplay } from './TaskDisplay';
 import { toast } from 'react-toastify';
-import { addTasks } from '../../Redux/TaskData/taskSlice';
-import { useDispatch } from 'react-redux';
+// import { addTasks } from '../../Redux/TaskData/taskSlice';
+// import { useDispatch } from 'react-redux';
 const TaskWindow = () => {
 
   const [dataObject,setDataObject]  = useState({
@@ -14,7 +14,7 @@ const TaskWindow = () => {
     Tags:'',
     Time:''
   })
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   async function addTaskHandler(event)
   {
     event.preventDefault();
