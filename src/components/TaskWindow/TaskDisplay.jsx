@@ -2,16 +2,15 @@ import React, { useEffect, useState } from "react";
 import { query, collection, getDocs, where } from "firebase/firestore";
 import { db, auth } from "../../Backend";
 import { Filter } from "../../assets";
+import { TaskItem } from "./";
 
 export const TaskDisplay = () => {
   const [taskData, setTaskData] = useState([]);
   const [loading, setLoading] = useState(true);
-  console.log('loading: ', loading)
   const [filteredData,setFilteredData] = useState(taskData);
-  console.log('before useeffect',loading)
+
   useEffect(() => {
     async function fetchTasks() {
-
       try {
         setLoading(true);
         const user = auth.currentUser;
@@ -48,7 +47,6 @@ export const TaskDisplay = () => {
   
         const data = [];
         taskQueryResult.forEach((doc) => {
-
           data.push(doc.data());
         });
         setTaskData(data);
@@ -61,7 +59,7 @@ export const TaskDisplay = () => {
     }
     if(!taskData.length && auth.currentUser)
       fetchTasks();
-  },[taskData,setLoading])
+  },[[],taskData,setLoading])
 
   const showAllTasks = (event)=>{
     setTaskData(filteredData)
@@ -75,6 +73,7 @@ export const TaskDisplay = () => {
     setTaskData(data)
   }
 
+  
   return (
     <div className="flex flex-col gap-4 bg-[#fff] px-6 py-3 rounded-t-3xl rounded-b-3xl">
       <div className="flex justify-between items-baseline">
@@ -102,38 +101,54 @@ export const TaskDisplay = () => {
         </div>
       </div>
 
-      <div className="w-full h-[400px] overflow-y-scroll">
-        <div className="p-4 rounded-md border flex justify-between w-[100%] bg-[#F1F1F5] text-[#44444F] font-[Roboto] font-[700] text-[19px] *:w-40 *:text-center">
-          <span>Task</span>
-          <span>Category</span>
-          <span>Tags</span>
-          <span>Time</span>
-          <span>Due Date</span>
-          <span>Status</span>
+      <div className="w-full ">
+        <div className="p-4 rounded-md border flex justify-between w-[100%] bg-[#F1F1F5] text-[#44444F] font-[Roboto] font-[700] text-[19px]">
+          <span></span>
+          <span className="w-40 text-center">Task</span>
+          <span className="w-40 text-center">Category</span>
+          <span className="w-40 text-center">Tags</span>
+          <span className="w-40 text-center">Time</span>
+          <span className="w-40 text-center">Due Date</span>
+          <span className="w-40 text-center">Status</span>
         </div>
 
-        {!loading ? (
-          taskData.map(
-            (task, index) =>
-             (
-                <div
-                  key={index}
-                  className={`p-4 rounded-md border flex justify-between w-[100%] ${(index+1)%2===0 ? `bg-[#fafafb]` :`bg-[#fff]` } text-[#171725] font-[Poppins] font-[400] text-[15px] *:w-40 *:text-center *:uppercase`}
-                >
-                  <span className="font-normal">{task.Task}</span>
-                  <span className="font-normal">{task.Category}</span>
-                  <span className="font-normal">{task.Tags}</span>
-                  <span className="font-normal">{task.Time}</span>
-                  <span className="font-normal">{task.Date}</span>
-                  <span className={`uppercase ${task.status.toUpperCase() ==='PENDING' ? 'bg-[#50B5FF]/[10%] text-[#50B5FF] ' : 'bg-[#3DD598]/[10%] text-[#3DD598] '} font-[500] py-1 px-2 rounded-lg`}>
-                    {task.status}
-                  </span>
-                </div>
+        <div className="h-[400px] overflow-y-scroll">
+          {!loading ? (
+            taskData.map(
+              (task, index) =>
+              (
+                <TaskItem task={task} index={index}/>
+                  // <div
+                  //   key={index}
+                  //   className={`p-4 rounded-md border flex justify-between w-[100%] ${(index+1)%2===0 ? `bg-[#fafafb]` :`bg-[#fff]` } text-[#171725] font-[Poppins] font-[400] text-[15px]`}
+                  // >
+                  //   <span 
+                  //   // className={`appearance-none rounded-[50%] border border-solid border-[#D4D4D4] w-[20px] h-[20px] text-white ${ischecked && `bg-[#3DD598] border-[#3DD598]`} flex items-center justify-center cursor-pointer`} onClick={statusHandler} checked={ischecked}
+                  //   className="relative"
+                  //   >
+                  //     <span className="font-[800] select-none absolute text-white left-[20%]">&#10003;</span>
+                  //     <input 
+                  //       type="checkbox" 
+                  //       ischecked={false}
+                  //       className={`appearance-none rounded-[50%] border border-solid border-[#D4D4D4] w-[20px] h-[20px] text-white ${true && `bg-[#3DD598] border-[#3DD598]`} flex items-center justify-center cursor-pointer`} 
+                  //       onClick={statusHandler} 
+                  //     />
+                  //     </span>
+                  //   <span className="font-normal w-40 text-center uppercase">{task.Task}</span>
+                  //   <span className="font-normal w-40 text-center uppercase">{task.Category}</span>
+                  //   <span className="font-normal w-40 text-center uppercase">{task.Tags}</span>
+                  //   <span className="font-normal w-40 text-center uppercase">{task.Time}</span>
+                  //   <span className="font-normal w-40 text-center uppercase">{task.Date}</span>
+                  //   <span className={`uppercase ${task.status.toUpperCase() ==='PENDING' ? 'bg-[#50B5FF]/[10%] text-[#50B5FF] ' : 'bg-[#3DD598]/[10%] text-[#3DD598] '} font-[500] py-1 px-2 rounded-lg w-40 text-center uppercase`}>
+                  //     {task.status}
+                  //   </span>
+                  // </div>
+                )
               )
-            )
-        ) : (
-          <div className="flex justify-center items-center h-full">Loading....</div>
-        )}
+          ) : (
+            <div className="flex justify-center items-center h-full">Loading....</div>
+          )}
+        </div>
       </div>
     </div>
   );

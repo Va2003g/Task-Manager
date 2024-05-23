@@ -11,7 +11,7 @@ export const AddUser = async(data,navigate)=>{
                 firstName: data.firstName,
                 lastName:data.lastName,
                 email:data.email,
-                photo:data.photoUrl,
+                photo:data.photoUrl | data.photoURL,
             });
             console.log(response);
         }

@@ -1,11 +1,10 @@
 import './App.css';
-import LoginPage from './pages/LoginPage';
+import {LoginPage,Dashboard} from './pages';
 import { Routes , Route, useNavigate } from 'react-router-dom';
-import Dashboard from './pages/Dashboard'
 import { onAuthStateChanged } from 'firebase/auth';
 import {auth} from './Backend'
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch} from 'react-redux';
 import { update } from "./Redux/UserData/UserDataSlice";
 
 function App() {
