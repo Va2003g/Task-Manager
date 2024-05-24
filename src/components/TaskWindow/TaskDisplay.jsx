@@ -83,9 +83,8 @@ export const TaskDisplay = () => {
           <span className="w-40 text-center">Status</span>
         </div>
 
-        <div className="h-[400px] overflow-y-scroll">
+        <div className="h-[315px] overflow-y-scroll">
           {filteredData.length !== 0 ? (
-            console.log(filteredData),
             filteredData.map(
                 (task, index) =>(
                   <TaskItem task={task} index={index} key={index}/>

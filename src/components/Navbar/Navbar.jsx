@@ -6,8 +6,11 @@ import { Logout } from "../Login";
 
 const Navbar = () => {
   const searchHandler = (event) => {
-    if (event.target.value === ""){setSearchResult([]); return}
-    
+    if (event.target.value === "") {
+      setSearchResult([]);
+      return;
+    }
+
     let option = event.target.value.split(":")[0];
     if (option !== "status" && option !== "id" && option !== "userId")
       option = option.charAt(0).toUpperCase() + option.slice(1);
@@ -38,14 +41,18 @@ const Navbar = () => {
               className="bg-[#F1F1F1] border-none outline-none"
               onBlur={searchHandler}
             />
-            <div className={`${searchResult.length <= 0 && 'hidden'} w-[150%] bg-gray-500/30 text-[#ffffff] z-40 absolute top-5 gap-3 flex flex-col p-3 rounded-xl`}>
-                {searchResult.length > 0 &&
+            <div
+              className={`${
+                searchResult.length <= 0 && "hidden"
+              } w-[150%] bg-gray-500/80 text-[#ffffff] z-40 absolute top-5 gap-3 flex flex-col p-3 rounded-xl`}
+            >
+              {searchResult.length > 0 &&
                 searchResult.map((task) => (
-                    <div className="flex flex-col z-3 w-[100%] font-[700]">
-                        <span>Task: {task.Task}</span>
-                        <span>Tags: {task.Tags}</span>
-                        <span>Category: {task.Category}</span>
-                    </div>
+                  <div className="flex flex-col z-3 w-[100%] font-[700]">
+                    <span>Task: {task.Task}</span>
+                    <span>Tags: {task.Tags}</span>
+                    <span>Category: {task.Category}</span>
+                  </div>
                 ))}
             </div>
           </div>

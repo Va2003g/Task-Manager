@@ -5,47 +5,45 @@ import { useSelector } from "react-redux";
 const SideBar = () => {
   const [category, setCategory] = useState(true);
   const [tags, setTags] = useState(false);
-  let [searchData,setSearchData] = useState([]);
+  let [searchData, setSearchData] = useState([]);
   const data = useSelector((state) => state.taskData.value);
-  const categoryData = [],tagData = [];
+  const categoryData = [],
+    tagData = [];
 
   data.forEach((task) => {
     categoryData.push(task.Category);
-    if(task.Tags.includes(','))
-    {
-      task.Tags.split(',').forEach(value=>{
-        tagData.push(value)
+    if (task.Tags.includes(",")) {
+      task.Tags.split(",").forEach((value) => {
+        tagData.push(value);
       });
-    }else tagData.push(task.Tags);
+    } else tagData.push(task.Tags);
   });
 
   function handleCategory() {
     setTags(false);
-    setSearchData([])
+    setSearchData([]);
     setCategory(!category);
   }
   function handleTags() {
     setCategory(false);
-    setSearchData([])
+    setSearchData([]);
     setTags(!tags);
   }
-  function searchHandler(event)
-  {
-    if(category)
-    {
-      searchData = data.filter(task=>task.Category.toLowerCase()===event.target.value.toLowerCase());
-      setTags(false);
-      setCategory(false);
-      setSearchData(searchData);
+  function searchHandler(event) {
+    if (event.target.value === "") {
+      setSearchData([]);
+      setCategory(true);
+      return;
     }
-    else if(tags)
-    {
-      searchData = data.filter(task=>task.Tags.toLowerCase()===event.target.value.toLowerCase());
-      setCategory(false);
-      setTags(false)
-      setSearchData(searchData);
-    }
-    console.log('searchData: ', searchData)
+    searchData = data.filter(
+      (task) =>
+        task.Category.toLowerCase().includes(
+          event.target.value.toLowerCase()
+        ) || task.Tags.toLowerCase().includes(event.target.value.toLowerCase())
+    );
+    setTags(false);
+    setCategory(false);
+    setSearchData(searchData);
   }
   return (
     <div className="h-full flex flex-col justify-evenly gap-10 relative left-1 top-4 text-[#171725] font-[500] leading-[16.41px] font-[Roboto]">
@@ -66,12 +64,20 @@ const SideBar = () => {
       <div className="flex -mt-5 justify-evenly box-border pb-3">
         <div className="group" onClick={handleCategory}>
           Category
-          <div className={`group-hover:bg-[#5F8FE3] h-1 w-full mt-2 ${category && 'bg-[#5F8FE3] h-1 w-full mt-2'}`}></div>
+          <div
+            className={`group-hover:bg-[#5F8FE3] h-1 w-full mt-2 ${
+              category && "bg-[#5F8FE3] h-1 w-full mt-2"
+            }`}
+          ></div>
         </div>
 
         <div className="group" onClick={handleTags}>
           Tags
-          <div className={`group-hover:bg-[#5F8FE3] h-1 w-full mt-2 ${tags && 'bg-[#5F8FE3] h-1 w-full mt-2'}`}></div>
+          <div
+            className={`group-hover:bg-[#5F8FE3] h-1 w-full mt-2 ${
+              tags && "bg-[#5F8FE3] h-1 w-full mt-2"
+            }`}
+          ></div>
         </div>
       </div>
       <div className="flex gap-2 -mt-10">
@@ -81,7 +87,7 @@ const SideBar = () => {
             type="text"
             placeholder="Search..."
             className="text-[#92929D] font-[300] text-[14px] bg-[#E4E4E440]/[5%] border-none outline-none w-full"
-            onBlur={searchHandler}
+            onChange={searchHandler}
           />
         </div>
         <div className="text-[#5F8FE3] bg-[#E4E4E440]/[25%] flex justify-center items-center rounded-md px-3 text-4xl box-border hover:cursor-pointer font-[270]">
@@ -89,7 +95,7 @@ const SideBar = () => {
         </div>
       </div>
 
-      <div className="relative left-8 -top-5 flex flex-col gap-3 h-[400px] overflow-y-scroll">
+      <div className="relative left-2 -top-5 flex flex-col gap-3 h-[350px] overflow-y-scroll">
         {category &&
           categoryData.map((data, key) => (
             <div className="flex gap-2 font-[300] font-[Poppins]" key={key}>
@@ -104,15 +110,18 @@ const SideBar = () => {
               <span>{data.toUpperCase()}</span>
             </div>
           ))}
-        {searchData.length > 0 ?
+        {searchData.length > 0 &&
           searchData.map((data, key) => (
-            <div className="flex gap-2 font-[300] font-[Poppins] flex-col w-fit border-b-4" key={key}>
+            <div
+              className="flex gap-2 font-[300] text-[13px] font-[Poppins] flex-col border-b-4 text-center"
+              key={key}
+            >
               {/* <img src={categoryIcon} alt="" /> */}
               <span>Task:- {data.Task.toUpperCase()}</span>
               <span>Category:- {data.Category.toUpperCase()}</span>
               <span>Tags:- {data.Tags.toUpperCase()}</span>
             </div>
-          )):<div>Results Not Found..</div>}
+          ))}
       </div>
     </div>
   );
