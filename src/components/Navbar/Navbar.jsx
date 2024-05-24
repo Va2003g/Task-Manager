@@ -6,9 +6,12 @@ import { Logout } from "../Login";
 
 
 const Navbar = ()=> {
+    const searchHandler = (event)=>{
+        // taskData.forEach(task=>{console.log(Object.keys(task),Object.values(task))});
 
+    }
     const data = useSelector((state)=>state.userData.value);
-    
+    const taskData = useSelector(state=>state.taskData.value);
     const [showLogout,setShowLogout] = useState(false);
     return (
         <div className="bg-[#FFFFFF] flex shadow-[0px_-1px_0px_0px_#E2E2EA_inset] justify-between h-[8%] items-center p-3 relative">
@@ -18,7 +21,7 @@ const Navbar = ()=> {
                 </div>
                 <div className="relative flex items-center bg-[#F1F1F1] border w-[20em] rounded-md px-6 h-[51px] hover:outline-[#F1F1F1] hover:outline-2 hover:outline-double gap-1">
                     <span className=""><img src={Search} alt="icon"/></span>
-                    <input type="text" placeholder="Search..." className="bg-[#F1F1F1] border-none outline-none"/>
+                    <input type="text" placeholder="Search..." className="bg-[#F1F1F1] border-none outline-none" onChange={searchHandler}/>
                 </div>
             </div>
             <div className="flex justify-center items-center mr-2">

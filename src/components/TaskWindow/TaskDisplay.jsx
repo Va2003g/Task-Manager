@@ -7,11 +7,16 @@ import { useCallback } from "react";
 export const TaskDisplay = () => {
   // const [taskData, setTaskData] = useState([]);
   // const [loading, setLoading] = useState(true);
+  const [all,setAll] = useState(true);
+  const [pending,setPending] = useState(false);
+  const [completed,setCompleted] = useState(false);
   const taskData = useSelector((state)=>state.taskData.value)
   const [filteredData,setFilteredData] = useState([]);
-  
   const showAllTasks = useCallback(()=>{
     setFilteredData(taskData)
+    setAll(true);
+    setPending(false)
+    setCompleted(false)
   },[taskData])
 
   useEffect(()=>{
@@ -20,12 +25,16 @@ export const TaskDisplay = () => {
 
   const showPendingTasks = (event)=>{
     const data = taskData.filter((task)=>(task.status.toUpperCase()==='PENDING'))
-    console.log(data,'in pending')
+    setPending(true);
+    setAll(false)
+    setCompleted(false)
     setFilteredData(data)
   }
   const showCompletedTask = (event)=>{
     const data = taskData.filter((task)=>(task.status.toUpperCase()==='COMPLETED'))
-    console.log(data,'in completed')
+    setCompleted(true)
+    setAll(false)
+    setPending(false)
     setFilteredData(data)
   }
 
@@ -41,13 +50,19 @@ export const TaskDisplay = () => {
 
         <div className="flex gap-1 box-border font-[Roboto]">
           <div className={`flex border-[1px] border-solid border-[#f1f1f5] rounded-t-[12px] rounded-b-[12px] items-baseline px-4 py-1 box-border`}>
-            <p id='all' className="hover:bg-gradient-to-r from-[#6B85E6] to-[#6895E6] hover:rounded-t-md hover:rounded-b-md px-3 hover:text-white" onClick={showAllTasks}>
+            <p id='all' 
+            className={`hover:bg-gradient-to-r from-[#6B85E6] to-[#6895E6] hover:rounded-t-md hover:rounded-b-md px-3 py-[0.1rem] hover:text-white ${all && 'bg-gradient-to-r from-[#6B85E6] to-[#6895E6] rounded-t-md rounded-b-md px-3 text-white'}`} 
+            onClick={showAllTasks}>
               All
             </p>
-            <p id='pending' className="hover:bg-gradient-to-r from-[#6B85E6] to-[#6895E6] hover:rounded-t-md hover:rounded-b-md py-[0.1rem] px-3 hover:text-white" onClick={showPendingTasks}>
+            <p id='pending' 
+            className={`hover:bg-gradient-to-r from-[#6B85E6] to-[#6895E6] hover:rounded-t-md hover:rounded-b-md px-3 py-[0.1rem] hover:text-white ${pending && 'bg-gradient-to-r from-[#6B85E6] to-[#6895E6] rounded-t-md rounded-b-md px-3 text-white'}`}
+            onClick={showPendingTasks}>
               Pending
             </p>
-            <p id='completed' className="hover:bg-gradient-to-r from-[#6B85E6] to-[#6895E6] hover:rounded-t-md hover:rounded-b-md py-[0.1rem] px-3 hover:text-white" onClick={showCompletedTask}>
+            <p id='completed' 
+            className={`hover:bg-gradient-to-r from-[#6B85E6] to-[#6895E6] hover:rounded-t-md hover:rounded-b-md px-3 py-[0.1rem] hover:text-white ${completed && 'bg-gradient-to-r from-[#6B85E6] to-[#6895E6] rounded-t-md rounded-b-md px-3 text-white'}`}
+            onClick={showCompletedTask}>
               Completed
             </p>
           </div>
@@ -57,7 +72,7 @@ export const TaskDisplay = () => {
         </div>
       </div>
 
-      <div className="w-full ">
+      <div className="w-full h-[500px]">
         <div className="p-4 rounded-md border flex justify-between w-[100%] bg-[#F1F1F5] text-[#44444F] font-[Roboto] font-[700] text-[19px]">
           <span></span>
           <span className="w-40 text-center">Task</span>
@@ -70,6 +85,7 @@ export const TaskDisplay = () => {
 
         <div className="h-[400px] overflow-y-scroll">
           {filteredData.length !== 0 ? (
+            console.log(filteredData),
             filteredData.map(
                 (task, index) =>(
                   <TaskItem task={task} index={index} key={index}/>

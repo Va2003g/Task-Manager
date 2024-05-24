@@ -1,5 +1,5 @@
 
-import {query,collection, addDoc,getDocs,where} from 'firebase/firestore'
+import {query,collection, addDoc,getDocs,getDoc,where} from 'firebase/firestore'
 import { db,auth} from './index'
 export const AddTask = async(dataArray)=>{
     try{
@@ -13,8 +13,11 @@ export const AddTask = async(dataArray)=>{
         dataArray.userId = userId;
         dataArray.status = 'pending';
         const response = await addDoc(collection(db, `Tasks`), dataArray);
-        console.log(response);
-        return response;
+        const storedDoc = await getDoc(response);
+
+        if (storedDoc.exists()) {
+            return { id: storedDoc.id, ...storedDoc.data() };
+        }
     }catch(err)
     {
         console.log(err);

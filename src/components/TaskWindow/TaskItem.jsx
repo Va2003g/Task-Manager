@@ -32,7 +32,7 @@ export const TaskItem = ({ task, index }) => {
           onClick={statusHandler}
         />
       </span>
-      <span className="font-normal w-40 text-center uppercase">
+      <span className="font-normal w-40 text-center uppercase ">
         {task.Task}
       </span>
       <span className="font-normal w-40 text-center uppercase">

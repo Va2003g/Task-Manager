@@ -6,8 +6,7 @@ const SideBar = () => {
   const [category, setCategory] = useState(true);
   const [tags, setTags] = useState(false);
   const data = useSelector((state) => state.taskData.value);
-  const categoryData = [],
-    tagData = [];
+  const categoryData = [],tagData = [];
 
   data.forEach((task) => {
     categoryData.push(task.Category);
@@ -41,12 +40,12 @@ const SideBar = () => {
       <div className="flex -mt-5 justify-evenly box-border pb-3">
         <div className="group" onClick={handleCategory}>
           Category
-          <div className="group-hover:bg-[#5F8FE3] h-1 w-full mt-2"></div>
+          <div className={`group-hover:bg-[#5F8FE3] h-1 w-full mt-2 ${category && 'bg-[#5F8FE3] h-1 w-full mt-2'}`}></div>
         </div>
 
         <div className="group" onClick={handleTags}>
           Tags
-          <div className="group-hover:bg-[#5F8FE3] h-1 w-full mt-2"></div>
+          <div className={`group-hover:bg-[#5F8FE3] h-1 w-full mt-2 ${tags && 'bg-[#5F8FE3] h-1 w-full mt-2'}`}></div>
         </div>
       </div>
       <div className="flex gap-2 -mt-10">
@@ -63,23 +62,21 @@ const SideBar = () => {
         </div>
       </div>
 
-      <div className="relative left-8 -top-5 flex flex-col gap-3">
-        {category
-          ? categoryData.map((data, key) => (
-              <div className="flex gap-2 font-[300] font-[Poppins]" key={key}>
-                <img src={categoryIcon} alt="" />
-                <span>{data}</span>
-              </div>
-            ))
-          : null}
-        {tags
-          ? tagData.map((data, key) => (
-              <div className="flex gap-2 font-[300] font-[Poppins]" key={key}>
-                <img src={categoryIcon} alt="" />
-                <span>{data}</span>
-              </div>
-            ))
-          : null}
+      <div className="relative left-8 -top-5 flex flex-col gap-3 h-[400px] overflow-y-scroll">
+        {category &&
+          categoryData.map((data, key) => (
+            <div className="flex gap-2 font-[300] font-[Poppins]" key={key}>
+              <img src={categoryIcon} alt="" />
+              <span>{data.toUpperCase()}</span>
+            </div>
+          ))}
+        {tags &&
+          tagData.map((data, key) => (
+            <div className="flex gap-2 font-[300] font-[Poppins]" key={key}>
+              <img src={categoryIcon} alt="" />
+              <span>{data.toUpperCase()}</span>
+            </div>
+          ))}
       </div>
     </div>
   );
