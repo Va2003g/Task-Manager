@@ -1,44 +1,72 @@
-import React, { useEffect, useState } from "react";
-import { Filter } from "../../assets";
+import React, { useEffect, useState, useCallback } from "react";
+import { Filter,Forward,Backward } from "../../assets";
 import { TaskItem } from "./";
 import { useSelector } from "react-redux";
-import { useCallback } from "react";
 
 export const TaskDisplay = () => {
-  // const [taskData, setTaskData] = useState([]);
-  // const [loading, setLoading] = useState(true);
-  const [all,setAll] = useState(true);
-  const [pending,setPending] = useState(false);
-  const [completed,setCompleted] = useState(false);
-  const taskData = useSelector((state)=>state.taskData.value)
-  const [filteredData,setFilteredData] = useState([]);
-  const showAllTasks = useCallback(()=>{
-    setFilteredData(taskData)
+  const [all, setAll] = useState(true);
+  const [pending, setPending] = useState(false);
+  const [completed, setCompleted] = useState(false);
+  const taskData = useSelector((state) => state.taskData.value);
+  const [filteredData, setFilteredData] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const tasksPerPage = 8;
+
+  const showAllTasks = useCallback(() => {
+    setFilteredData(taskData);
     setAll(true);
-    setPending(false)
-    setCompleted(false)
-  },[taskData])
+    setPending(false);
+    setCompleted(false);
+    setCurrentPage(1);
+  }, [taskData]);
 
-  useEffect(()=>{
+  useEffect(() => {
     showAllTasks();
-  },[showAllTasks])
+  }, [showAllTasks]);
 
-  const showPendingTasks = (event)=>{
-    const data = taskData.filter((task)=>(task.status.toUpperCase()==='PENDING'))
+  const showPendingTasks = () => {
+    const data = taskData.filter(
+      (task) => task.status.toUpperCase() === "PENDING"
+    );
     setPending(true);
-    setAll(false)
-    setCompleted(false)
-    setFilteredData(data)
-  }
-  const showCompletedTask = (event)=>{
-    const data = taskData.filter((task)=>(task.status.toUpperCase()==='COMPLETED'))
-    setCompleted(true)
-    setAll(false)
-    setPending(false)
-    setFilteredData(data)
-  }
+    setAll(false);
+    setCompleted(false);
+    setFilteredData(data);
+    setCurrentPage(1);
+  };
 
+  const showCompletedTask = () => {
+    const data = taskData.filter(
+      (task) => task.status.toUpperCase() === "COMPLETED"
+    );
+    setCompleted(true);
+    setAll(false);
+    setPending(false);
+    setFilteredData(data);
+    setCurrentPage(1);
+  };
+
+  const indexOfLastTask = currentPage * tasksPerPage;
   
+  // starting index + taskPerPage = lastIndex
+  const indexOfFirstTask = indexOfLastTask - tasksPerPage;
+  
+  const currentTasks = filteredData.slice(indexOfFirstTask, indexOfLastTask);
+
+  const totalPages = Math.ceil(filteredData.length / tasksPerPage);
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
   return (
     <div className="flex flex-col gap-4 bg-[#fff] px-6 py-3 rounded-t-3xl rounded-b-3xl">
       <div className="flex justify-between items-baseline">
@@ -48,21 +76,53 @@ export const TaskDisplay = () => {
           </div>
         </div>
 
+        <div className="flex justify-between mt-4">
+          <button
+            onClick={handlePreviousPage}
+            disabled={currentPage === 1}
+            className="rounded disabled:opacity-50"
+          >
+            <img src={Backward} alt="Next" width='20px' />
+          </button>
+          <span className="self-center">
+            Page {currentPage} of {totalPages}
+          </span>
+          <button
+            onClick={handleNextPage}
+            disabled={currentPage === totalPages}
+            className="text-white text-sm rounded disabled:opacity-50"
+          >
+            <img src={Forward} alt="Next" width='20px'/>
+          </button>
+        </div>
+
         <div className="flex gap-1 box-border font-[Roboto]">
-          <div className={`flex border-[1px] border-solid border-[#f1f1f5] rounded-t-[12px] rounded-b-[12px] items-baseline px-4 py-1 box-border`}>
-            <p id='all' 
-            className={`hover:bg-gradient-to-r from-[#6B85E6] to-[#6895E6] hover:rounded-t-md hover:rounded-b-md px-3 py-[0.1rem] hover:text-white ${all && 'bg-gradient-to-r from-[#6B85E6] to-[#6895E6] rounded-t-md rounded-b-md px-3 text-white'}`} 
-            onClick={showAllTasks}>
+          <div className="flex border-[1px] border-solid border-[#f1f1f5] rounded-t-[12px] rounded-b-[12px] items-baseline px-4 py-1 box-border">
+            <p
+              id="all"
+              className={`hover:bg-gradient-to-r from-[#6B85E6] to-[#6895E6] hover:rounded-t-md hover:rounded-b-md px-3 py-[0.1rem] hover:text-white ${
+                all && "bg-gradient-to-r from-[#6B85E6] to-[#6895E6] rounded-t-md rounded-b-md px-3 text-white"
+              }`}
+              onClick={showAllTasks}
+            >
               All
             </p>
-            <p id='pending' 
-            className={`hover:bg-gradient-to-r from-[#6B85E6] to-[#6895E6] hover:rounded-t-md hover:rounded-b-md px-3 py-[0.1rem] hover:text-white ${pending && 'bg-gradient-to-r from-[#6B85E6] to-[#6895E6] rounded-t-md rounded-b-md px-3 text-white'}`}
-            onClick={showPendingTasks}>
+            <p
+              id="pending"
+              className={`hover:bg-gradient-to-r from-[#6B85E6] to-[#6895E6] hover:rounded-t-md hover:rounded-b-md px-3 py-[0.1rem] hover:text-white ${
+                pending && "bg-gradient-to-r from-[#6B85E6] to-[#6895E6] rounded-t-md rounded-b-md px-3 text-white"
+              }`}
+              onClick={showPendingTasks}
+            >
               Pending
             </p>
-            <p id='completed' 
-            className={`hover:bg-gradient-to-r from-[#6B85E6] to-[#6895E6] hover:rounded-t-md hover:rounded-b-md px-3 py-[0.1rem] hover:text-white ${completed && 'bg-gradient-to-r from-[#6B85E6] to-[#6895E6] rounded-t-md rounded-b-md px-3 text-white'}`}
-            onClick={showCompletedTask}>
+            <p
+              id="completed"
+              className={`hover:bg-gradient-to-r from-[#6B85E6] to-[#6895E6] hover:rounded-t-md hover:rounded-b-md px-3 py-[0.1rem] hover:text-white ${
+                completed && "bg-gradient-to-r from-[#6B85E6] to-[#6895E6] rounded-t-md rounded-b-md px-3 text-white"
+              }`}
+              onClick={showCompletedTask}
+            >
               Completed
             </p>
           </div>
@@ -84,16 +144,18 @@ export const TaskDisplay = () => {
         </div>
 
         <div className="h-[315px] overflow-y-scroll">
-          {filteredData.length !== 0 ? (
-            filteredData.map(
-                (task, index) =>(
-                  <TaskItem task={task} index={index} key={index}/>
-                )
-              )
+          {currentTasks.length !== 0 ? (
+            currentTasks.map((task, index) => (
+              <TaskItem task={task} index={index} key={index} />
+            ))
           ) : (
-            <div className="flex justify-center items-center h-full">Loading....</div>
+            <div className="flex justify-center items-center h-full">
+              Loading....
+            </div>
           )}
         </div>
+
+       
       </div>
     </div>
   );
