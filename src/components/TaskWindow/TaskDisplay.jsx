@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { Filter,Forward,Backward } from "../../assets";
+import { Filter, Forward, Backward } from "../../assets";
 import { TaskItem } from "./";
 import { useSelector } from "react-redux";
 
@@ -47,10 +47,10 @@ export const TaskDisplay = () => {
   };
 
   const indexOfLastTask = currentPage * tasksPerPage;
-  
+
   // starting index + taskPerPage = lastIndex
   const indexOfFirstTask = indexOfLastTask - tasksPerPage;
-  
+
   const currentTasks = filteredData.slice(indexOfFirstTask, indexOfLastTask);
 
   const totalPages = Math.ceil(filteredData.length / tasksPerPage);
@@ -76,32 +76,33 @@ export const TaskDisplay = () => {
           </div>
         </div>
 
-        <div className="flex justify-between mt-4">
-          <button
-            onClick={handlePreviousPage}
-            disabled={currentPage === 1}
-            className="rounded disabled:opacity-50"
-          >
-            <img src={Backward} alt="Next" width='20px' />
-          </button>
-          <span className="self-center">
-            Page {currentPage} of {totalPages}
-          </span>
-          <button
-            onClick={handleNextPage}
-            disabled={currentPage === totalPages}
-            className="text-white text-sm rounded disabled:opacity-50"
-          >
-            <img src={Forward} alt="Next" width='20px'/>
-          </button>
-        </div>
+        <div className="flex gap-2 box-border font-[Roboto]">
+          <div className="flex justify-between gap-2">
+            <span className="self-center">
+              Page {currentPage} of {totalPages}
+            </span>
+            <button
+              onClick={handlePreviousPage}
+              disabled={currentPage === 1}
+              className="rounded disabled:opacity-50"
+            >
+              <img src={Backward} alt="Next" width="20px" />
+            </button>
 
-        <div className="flex gap-1 box-border font-[Roboto]">
-          <div className="flex border-[1px] border-solid border-[#f1f1f5] rounded-t-[12px] rounded-b-[12px] items-baseline px-4 py-1 box-border">
+            <button
+              onClick={handleNextPage}
+              disabled={currentPage === totalPages}
+              className="text-white text-sm rounded disabled:opacity-50"
+            >
+              <img src={Forward} alt="Next" width="20px" />
+            </button>
+          </div>
+          <div className="flex border-[1px] border-solid border-[#f1f1f5] rounded-t-[12px] rounded-b-[12px] items-baseline px-4 py-1 box-border gap-1">
             <p
               id="all"
-              className={`hover:bg-gradient-to-r from-[#6B85E6] to-[#6895E6] hover:rounded-t-md hover:rounded-b-md px-3 py-[0.1rem] hover:text-white ${
-                all && "bg-gradient-to-r from-[#6B85E6] to-[#6895E6] rounded-t-md rounded-b-md px-3 text-white"
+              className={`hover:bg-gradient-to-r from-[#6B85E6] to-[#6895E6] hover:rounded-t-md hover:rounded-b-md px-2 py-[0.1rem] hover:text-white ${
+                all &&
+                "bg-gradient-to-r from-[#6B85E6] to-[#6895E6] rounded-t-md rounded-b-md px-2 text-white"
               }`}
               onClick={showAllTasks}
             >
@@ -109,8 +110,9 @@ export const TaskDisplay = () => {
             </p>
             <p
               id="pending"
-              className={`hover:bg-gradient-to-r from-[#6B85E6] to-[#6895E6] hover:rounded-t-md hover:rounded-b-md px-3 py-[0.1rem] hover:text-white ${
-                pending && "bg-gradient-to-r from-[#6B85E6] to-[#6895E6] rounded-t-md rounded-b-md px-3 text-white"
+              className={`hover:bg-gradient-to-r from-[#6B85E6] to-[#6895E6] hover:rounded-t-md hover:rounded-b-md px-2 py-[0.1rem] hover:text-white ${
+                pending &&
+                "bg-gradient-to-r from-[#6B85E6] to-[#6895E6] rounded-t-md rounded-b-md px-2 text-white"
               }`}
               onClick={showPendingTasks}
             >
@@ -118,17 +120,18 @@ export const TaskDisplay = () => {
             </p>
             <p
               id="completed"
-              className={`hover:bg-gradient-to-r from-[#6B85E6] to-[#6895E6] hover:rounded-t-md hover:rounded-b-md px-3 py-[0.1rem] hover:text-white ${
-                completed && "bg-gradient-to-r from-[#6B85E6] to-[#6895E6] rounded-t-md rounded-b-md px-3 text-white"
+              className={`hover:bg-gradient-to-r from-[#6B85E6] to-[#6895E6] hover:rounded-t-md hover:rounded-b-md px-2 py-[0.1rem] hover:text-white ${
+                completed &&
+                "bg-gradient-to-r from-[#6B85E6] to-[#6895E6] rounded-t-md rounded-b-md px-2 text-white"
               }`}
               onClick={showCompletedTask}
             >
               Completed
             </p>
           </div>
-          <div className="border-[1px] border-solid border-[#f1f1f5] px-2 py-2 rounded-t-[12px] rounded-b-[12px]">
+          {/* <div className="border-[1px] border-solid border-[#f1f1f5] px-2 py-2 rounded-t-[12px] rounded-b-[12px]">
             <img src={Filter} alt="" className="my-auto mx-auto" />
-          </div>
+          </div> */}
         </div>
       </div>
 
@@ -154,8 +157,6 @@ export const TaskDisplay = () => {
             </div>
           )}
         </div>
-
-       
       </div>
     </div>
   );

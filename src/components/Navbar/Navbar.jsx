@@ -3,6 +3,7 @@ import { logo, Bell } from "../../assets";
 import { Search } from "../../assets";
 import { useSelector } from "react-redux";
 import { Logout } from "../Login";
+import { toast } from "react-toastify";
 
 const Navbar = () => {
   const searchHandler = (event) => {
@@ -12,11 +13,22 @@ const Navbar = () => {
     }
 
     let option = event.target.value.split(":")[0];
+    const value = event.target.value.split(":")[1].split(' ').join("");
+    console.log('value: ', value)
     if (option !== "status" && option !== "id" && option !== "userId")
       option = option.charAt(0).toUpperCase() + option.slice(1);
-    const value = event.target.value.split(":")[1];
+    if(!option || !value)
+    {
+      toast.error('Not a valid format to search')
+      return;
+    }
+    if(!Object.keys(taskData[0]).includes(option))
+    {
+      toast.error(`Kindly Enter Valid Field \n ${option} is not a field`);
+      return;
+    }
     const taskItems = taskData.filter(
-      (task) => task[option].toLowerCase() === value.toLowerCase()
+      (task) => task[option].toLowerCase().split(' ').join("") === value.toLowerCase()
     );
     setSearchResult(taskItems);
   };
@@ -39,7 +51,10 @@ const Navbar = () => {
               type="text"
               placeholder="type category:office"
               className="bg-[#F1F1F1] border-none outline-none"
-              onBlur={searchHandler}
+              onKeyDown={(e) => {
+                if (e.key === "Enter")
+                  searchHandler(e);
+                }}
             />
             <div
               className={`${

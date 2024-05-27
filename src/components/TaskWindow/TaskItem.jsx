@@ -21,7 +21,9 @@ export const TaskItem = ({ task, index }) => {
       } text-[#171725] font-[Poppins] font-[400] text-[15px]`}
     >
       <span
-        className={`appearance-none rounded-[50%] border border-solid border-[#D4D4D4] w-[20px] h-[20px] text-white ${ischecked && `bg-[#3DD598] border-[#3DD598]`} flex items-center justify-center cursor-pointer`} onClick={statusHandler} checked={ischecked}
+        className={`appearance-none rounded-[50%] border border-solid border-[#D4D4D4] w-[20px] h-[20px] text-white ${ischecked && `bg-[#3DD598] border-[#3DD598]`} flex items-center justify-center cursor-pointer`} 
+        onClick={statusHandler} 
+        checked={ischecked}
       >
         <span className="font-[800] select-none text-white">
           &#10003;

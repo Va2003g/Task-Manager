@@ -88,6 +88,10 @@ const SideBar = () => {
             placeholder="Search..."
             className="text-[#92929D] font-[300] text-[14px] bg-[#E4E4E440]/[5%] border-none outline-none w-full"
             onChange={searchHandler}
+            onKeyDown={(e) => {
+              if (e.key === "Enter")
+                searchHandler(e);
+              }}
           />
         </div>
         <div className="text-[#5F8FE3] bg-[#E4E4E440]/[25%] flex justify-center items-center rounded-md px-3 text-4xl box-border hover:cursor-pointer font-[270]">
@@ -95,7 +99,7 @@ const SideBar = () => {
         </div>
       </div>
 
-      <div className="relative left-2 -top-5 flex flex-col gap-3 h-[350px] overflow-y-scroll">
+      <div className="relative left-2 -top-5 flex flex-col gap-3 h-[330px] overflow-y-scroll">
         {category &&
           categoryData.map((data, key) => (
             <div className="flex gap-2 font-[300] font-[Poppins]" key={key}>
