@@ -12,6 +12,8 @@ export const taskSlice = createSlice({
     reducers:{
         updateTasks:(state,action)=>{
             state.value = action.payload;
+            console.log('state.value: ', state.value)
+            console.log('action.payload: ', action.payload)
         },
         addTasks:(state,action)=>{
             state.value.push(action.payload);

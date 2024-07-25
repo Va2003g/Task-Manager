@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { hero, logo, Google } from "../../assets";
 import { useNavigate } from "react-router-dom";
 
@@ -12,7 +12,7 @@ export const Login = () => {
  
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [status,setStatus] = useState(false);
+  // const [status,setStatus] = useState(false);
   const handleLogin = () =>{
     signInWithPopup(auth,provider).then(async (data)=>{
       

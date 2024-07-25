@@ -8,6 +8,7 @@ const SideBar = () => {
   const [tags, setTags] = useState(false);
   let [searchData, setSearchData] = useState([]);
   const data = useSelector((state) => state.taskData.value);
+  console.log('data: ', data)
   const dispatch = useDispatch();
   const categoryData = [],
     tagData = [];
@@ -22,7 +23,7 @@ const SideBar = () => {
   });
 
   dispatch(updateCategoryData(categoryData));
-  dispatch(updateCategoryData(tagData));
+  dispatch(updateTagsData(tagData));
   function handleCategory() {
     setTags(false);
     setSearchData([]);
