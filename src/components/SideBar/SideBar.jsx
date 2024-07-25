@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import { Search, categoryIcon } from "../../assets";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { updateCategoryData,updateTagsData } from "../../Redux/TaskData/taskSlice";
 
 const SideBar = () => {
   const [category, setCategory] = useState(true);
   const [tags, setTags] = useState(false);
   let [searchData, setSearchData] = useState([]);
   const data = useSelector((state) => state.taskData.value);
+  const dispatch = useDispatch();
   const categoryData = [],
     tagData = [];
 
@@ -19,6 +21,8 @@ const SideBar = () => {
     } else tagData.push(task.Tags);
   });
 
+  dispatch(updateCategoryData(categoryData));
+  dispatch(updateCategoryData(tagData));
   function handleCategory() {
     setTags(false);
     setSearchData([]);

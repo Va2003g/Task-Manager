@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { hero, logo, Google } from "../../assets";
 import { useNavigate } from "react-router-dom";
 
@@ -12,6 +12,7 @@ export const Login = () => {
  
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [status,setStatus] = useState(false);
   const handleLogin = () =>{
     signInWithPopup(auth,provider).then(async (data)=>{
       
@@ -25,6 +26,7 @@ export const Login = () => {
   }
   return (
     <div className="login w-full h-full flex relative justify-evenly">
+      {/* status = {status} */}
       <div className="absolute loginDiv inset-0 opacity-50"></div>
       <div className="image relative top-[168.14px]">
         <img src={hero} alt="" className="w-[869.32px] h-[495px] aspect-auto" />

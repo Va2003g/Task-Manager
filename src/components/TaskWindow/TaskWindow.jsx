@@ -4,8 +4,13 @@ import { AddTask } from '../../Backend';
 import { TaskDisplay } from './TaskDisplay';
 import { toast } from 'react-toastify';
 import { addTasks } from '../../Redux/TaskData/taskSlice';
-import { useDispatch } from 'react-redux';
+import { useDispatch,useSelector } from 'react-redux';
 const TaskWindow = () => {
+  const categoryData = useSelector(state=>state.taskData.categoryData);
+  const tagsData = useSelector(state=>state.taskData.tagsData);
+  const [filteredTags,setFilteredTags] = useState([]);
+  const [categoryValue,setCategoryValue] = useState('');
+  const [tagsValue,setTagsValue] = useState('');
 
   const [dataObject,setDataObject]  = useState({
     Task:"",
@@ -22,7 +27,6 @@ const TaskWindow = () => {
     Time:''
   }
 
-  console.log('dataObject: ', dataObject)
   const dispatch = useDispatch();
   async function addTaskHandler(event)
   {
@@ -32,6 +36,7 @@ const TaskWindow = () => {
       toast.error('Kindly fill the complete data');
       return;
     }
+    console.log('dataobject',dataObject);
     const response = await AddTask(dataObject);
     //dispatch to store
     if(response)
@@ -44,8 +49,13 @@ const TaskWindow = () => {
       toast.error('Failed to Add Data')
     }
   }
+
+  function tagsHandler(event)
+  {
+    
+  }
   function updateHandler(event)
-  {  
+  { 
     setDataObject((prevState)=>({
       ...prevState,
       [event.target.name] : event.target.value
@@ -65,7 +75,14 @@ const TaskWindow = () => {
                 <label For="task" className='relative left-3' >Task</label>
                 <input type="text" id='task' name='Task' placeholder='Task Name..' value={dataObject.Task} className='bg-slate-100 bg-opacity-[9.28%] text-[#F6F6F6] font-[500] h-[38px] rounded-[6px] focus:outline-none pl-6' onChange={updateHandler}/>
                 <label For="tags" className='relative left-2'>Tags</label>
-                <input type="text" id='tags' name='Tags' placeholder='Enter Tags' value={dataObject.Tags} className='bg-slate-100 bg-opacity-[9.28%] text-[#F6F6F6] font-[500] h-[38px] rounded-[6px] focus:outline-none pl-6' onChange={updateHandler}/>
+                {/* <input type="text" id='tags' name='Tags' placeholder='Enter Tags' value={dataObject.Tags} className='bg-slate-100 bg-opacity-[9.28%] text-[#F6F6F6] font-[500] h-[38px] rounded-[6px] focus:outline-none pl-6' onChange={updateHandler}/> */}
+                <select type="text" id='tags' name='Tags' placeholder='Enter Tags' className='appearance-none bg-slate-100 bg-opacity-[9.28%] text-[#F6F6F6] font-[500] h-[38px] rounded-[6px] focus:outline-none pl-6' onChange={tagsHandler}>
+                  <option value='Enter Tags'>Enter Tags</option>
+                  <option value='Enter Tags'>Enter Tags</option>
+                  <option value='Enter Tags'>Enter Tags</option>
+                  {filteredTags.length >=0 && 
+                    filteredTags.map((tags)=>(<option value={tags}>{tags}</option>))}
+                </select>
               </span>
               <span className='flex flex-col gap-y-2'>
                 <label For="category" className='relative left-2'>Category</label>

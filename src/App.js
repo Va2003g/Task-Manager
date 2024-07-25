@@ -31,7 +31,6 @@ function App() {
         navigate('/dashboard');
       }
       else{
-        //user is null and so it is not logged in
         navigate('/');
       }
     })

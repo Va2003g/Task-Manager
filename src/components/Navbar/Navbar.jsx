@@ -14,7 +14,6 @@ const Navbar = () => {
 
     let option = event.target.value.split(":")[0];
     const value = event.target.value.split(":")[1].split(' ').join("");
-    console.log('value: ', value)
     if (option !== "status" && option !== "id" && option !== "userId")
       option = option.charAt(0).toUpperCase() + option.slice(1);
     if(!option || !value)

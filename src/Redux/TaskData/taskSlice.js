@@ -1,7 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    value:[]
+    value:[],
+    categoryData:[],
+    tagsData:[]
 }
 
 export const taskSlice = createSlice({
@@ -21,9 +23,15 @@ export const taskSlice = createSlice({
             {
                 task.status = newStatus;
             }
+        },
+        updateCategoryData:(state,action)=>{
+            state.categoryData = action.payload;
+        },
+        updateTagsData:(state,action)=>{
+            state.tagsData = action.payload;
         }
     }
 })
 
-export const {updateTasks,addTasks,updateStatus} = taskSlice.actions;
+export const {updateTasks,addTasks,updateStatus,updateCategoryData,updateTagsData} = taskSlice.actions;
 export default taskSlice.reducer;

@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { Filter, Forward, Backward } from "../../assets";
+import {Forward, Backward } from "../../assets";
 import { TaskItem } from "./";
 import { useSelector } from "react-redux";
 
