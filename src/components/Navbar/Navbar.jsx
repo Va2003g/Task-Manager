@@ -13,21 +13,20 @@ const Navbar = () => {
     }
 
     let option = event.target.value.split(":")[0];
-    const value = event.target.value.split(":")[1].split(' ').join("");
+    const value = event.target.value.split(":")[1].split(" ").join("");
     if (option !== "status" && option !== "id" && option !== "userId")
       option = option.charAt(0).toUpperCase() + option.slice(1);
-    if(!option || !value)
-    {
-      toast.error('Not a valid format to search')
+    if (!option || !value) {
+      toast.error("Not a valid format to search");
       return;
     }
-    if(!Object.keys(taskData[0]).includes(option))
-    {
+    if (!Object.keys(taskData[0]).includes(option)) {
       toast.error(`Kindly Enter Valid Field \n ${option} is not a field`);
       return;
     }
     const taskItems = taskData.filter(
-      (task) => task[option].toLowerCase().split(' ').join("") === value.toLowerCase()
+      (task) =>
+        task[option].toLowerCase().split(" ").join("") === value.toLowerCase()
     );
     setSearchResult(taskItems);
   };
@@ -39,7 +38,11 @@ const Navbar = () => {
     <div className="bg-[#FFFFFF] flex shadow-[0px_-1px_0px_0px_#E2E2EA_inset] justify-between h-[8%] items-center p-3 relative">
       <div className="flex justify-between">
         <div className="flex">
-          <img src={logo} alt="logo" className="w-10/12"></img>
+          {/* <img 
+            // src={logo} 
+            alt="Logo" 
+            className="w-10/12">  
+          </img> */}
         </div>
         <div className="relative flex items-center bg-[#F1F1F1] border w-[20em] rounded-md px-6 h-[51px] hover:outline-[#F1F1F1] hover:outline-2 hover:outline-double gap-1">
           <span className="">
@@ -51,9 +54,8 @@ const Navbar = () => {
               placeholder="type category:office"
               className="bg-[#F1F1F1] border-none outline-none"
               onKeyDown={(e) => {
-                if (e.key === "Enter")
-                  searchHandler(e);
-                }}
+                if (e.key === "Enter") searchHandler(e);
+              }}
             />
             <div
               className={`${
